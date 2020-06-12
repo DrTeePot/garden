@@ -29,7 +29,7 @@
     </main>
 
     <script>
-      const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=2123697820&single=true&output=csv"
+      const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=0&single=true&output=csv"
       var md = window.markdownit();
       console.log(url);
 
@@ -40,7 +40,11 @@
         step: function(row) {
           console.log("Row:", row.data);
           console.log("markdown");
-          console.log(md.render(row.data));
+
+          const timestamp = row.data["timestamp"];
+          const thought = row.data["body"];
+
+          console.log(md.render(thought));
         },
         complete: function() {
           console.log("All done!");
