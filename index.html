@@ -4,6 +4,28 @@
     <meta charset="utf-8">
     <title>Tristan's Garden</title>
     <!-- <link rel="stylesheet" href="style.css"> -->
+    <style type="text/css">
+      body {
+        font-family: 'Trebuchet MS', sans-serif;
+        padding: 30px 50px;
+        background-color: #fdfdfe;
+        max-width: 650px;
+        margin: 0 auto;
+      }
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      li {
+        margin: 0;
+      }
+      h3 {
+        padding: 0px 0px;
+        margin: 5px 0px;
+
+      }
+    </style>
     <script src="papaparse.min.js"></script>
     <script src="markdown-it.min.js"></script>
 
@@ -11,19 +33,19 @@
   <body>
     <header>
       <h1>
-        Tristan's Garden of Thoughts
+        Garden of Thoughts
       </h1>
-
       <nav>
       </nav>
     </header>
 
     <main>
-      <h2> Thoughts </h2>
+      <!-- <h2>  </h2> -->
 
       <ul id="thoughts">
         <li>
-          Thought 1
+          <h3> Timestamp 1 </h3>
+          <div><p> soime text </p> </div>
         </li>
       </ul>
     </main>
@@ -31,16 +53,12 @@
     <script>
       const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=0&single=true&output=csv"
       var md = window.markdownit();
-      console.log(url);
 
       Papa.parse(url, {
         download: true,
         worker: true,
         header: true,
         step: function(row) {
-          console.log("Row:", row.data);
-          console.log("markdown");
-
           const timestamp = row.data["timestamp"];
           const thought = row.data["body"];
 
