@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Tristan's Garden</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <script src="papaparse.min.js"></script>
+
+  </head>
+  <body>
+    <header>
+      <h1>
+        Tristan's Garden of Thoughts
+      </h1>
+
+      <nav>
+      </nav>
+    </header>
+
+    <main>
+      <h2> Thoughts </h2>
+
+      <ul id="thoughts">
+        <li>
+          Thought 1
+        </li>
+      </ul>
+    </main>
+
+    <script>
+      const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=0&single=true&output=csv"
+      console.log(url);
+      Papa.parse(url, {
+        download: true,
+        worker: true,
+        step: function(row) {
+          console.log("Row:", row.data);
+        },
+        complete: function() {
+          console.log("All done!");
+        },
+        error: function(error) {
+          console.log(error);
+        },
+      });
+
+    </script>
+  </body>
+</html>
