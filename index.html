@@ -33,6 +33,7 @@
       Papa.parse(url, {
         download: true,
         worker: true,
+        header: true,
         step: function(row) {
           console.log("Row:", row.data);
         },
