@@ -45,14 +45,15 @@
       <ul id="thoughts">
         <li>
           <h3> Timestamp 1 </h3>
-          <div><p> soime text </p> </div>
+          <div><p>some text</p> </div>
         </li>
       </ul>
     </main>
 
     <script>
-      const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=0&single=true&output=csv"
       var md = window.markdownit();
+      const url = getThoughtURL();
+      var container = document.getElementById('thoughts');
 
       Papa.parse(url, {
         download: true,
@@ -61,8 +62,8 @@
         step: function(row) {
           const timestamp = row.data["timestamp"];
           const thought = row.data["body"];
+          appendThought(container, `<li>${md.render(thought)}</li>`);
 
-          console.log(md.render(thought));
         },
         complete: function() {
           console.log("All done!");
@@ -72,6 +73,15 @@
         },
       });
 
+      function appendThought(container, html) {
+        var div = document.createElement('div');
+        div.innerHTML += html;
+        container.insertBefore(div, null);
+      }
+
+      function getThoughtURL() {
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=0&single=true&output=csv";
+      }
     </script>
   </body>
 </html>
