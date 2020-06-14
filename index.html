@@ -58,14 +58,17 @@
       function main() {
         const url = getThoughtURL();
         var container = document.getElementById('thoughts');
-
         const csv = 'timestamp,body\n\
           6/11/2020 22:29:14,"\
           With some text\n\
           *bold* _underlined_ ~~strike~~ :smile:"';
 
 
-        parse_csv_url(url, parse_row(container));
+        if (window.location.protocol == 'file:') {
+          parse_csv_string(csv, parse_row(container));
+        } else {
+          parse_csv_url(url, parse_row(container));
+        }
       }
 
       function parse_row(container) {
