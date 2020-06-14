@@ -5,8 +5,10 @@
     <title>Tristan's Garden</title>
     <!-- <link rel="stylesheet" href="style.css"> -->
     <style type="text/css">
+      @import url("https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/anonymous-pro.min.css");
+
       body {
-        font-family: 'Trebuchet MS', sans-serif;
+        font-family: 'Anonymous Pro', sans-serif;
         padding: 30px 50px;
         background-color: #fdfdfe;
         max-width: 650px;
@@ -36,7 +38,9 @@
         Garden of Thoughts
       </h1>
       <nav>
+        <a href="">Blog</a> | <a href="">Projects</a> | <a href="">About</a> | <a href="">Resume</a>
       </nav>
+      <hr>
     </header>
 
     <main>
@@ -62,7 +66,8 @@
         step: function(row) {
           const timestamp = row.data["timestamp"];
           const thought = row.data["body"];
-          appendThought(container, `<li>${md.render(thought)}</li>`);
+          const thought_html = `<h4> ${ timestamp } </h4> <li>${md.render(thought)}</li>`;
+          appendThought(container, thought_html);
 
         },
         complete: function() {
@@ -74,7 +79,7 @@
       });
 
       function appendThought(container, html) {
-        var div = document.createElement('div');
+        var div = document.createElement('li');
         div.innerHTML += html;
         container.insertBefore(div, null);
       }
