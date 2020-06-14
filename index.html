@@ -59,7 +59,7 @@
         const url = getThoughtURL();
         var container = document.getElementById('thoughts');
 
-        const csv = 'timestamp,body\nj
+        const csv = 'timestamp,body\n\
           6/11/2020 22:29:14,"\
           With some text\n\
           *bold* _underlined_ ~~strike~~ :smile:"';
@@ -116,7 +116,7 @@
       }
 
       function getThoughtURL() {
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=0&single=true&output=csv";
+        return "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=0&single=true&output=csv";
       }
 
       main();
