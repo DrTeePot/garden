@@ -55,28 +55,59 @@
     </main>
 
     <script>
-      var md = window.markdownit();
-      const url = getThoughtURL();
-      var container = document.getElementById('thoughts');
+      function main() {
+        const url = getThoughtURL();
+        var container = document.getElementById('thoughts');
 
-      Papa.parse(url, {
-        download: true,
-        worker: true,
-        header: true,
-        step: function(row) {
+        const csv = 'timestamp,body\n\
+          6/11/2020 22:29:14,"# A thought\n\
+          With some text\
+          ```ruby\
+          #### and a code block\
+          ```\
+          *bold* _underlined_ ~strike~ :smile:"';
+
+
+        parse_csv_url(url, parse_row(container));
+      }
+
+      function parse_row(container) {
+        return function (row) {
+          var md = window.markdownit();
           const timestamp = row.data["timestamp"];
           const thought = row.data["body"];
           const thought_html = `<h4> ${ timestamp } </h4> <li>${md.render(thought)}</li>`;
           appendThought(container, thought_html);
+        }
+      }
 
-        },
-        complete: function() {
-          console.log("All done!");
-        },
-        error: function(error) {
-          console.log(error);
-        },
-      });
+      function parse_csv_url(url, step_func) {
+        Papa.parse(url, {
+          download: true,
+          worker: true,
+          header: true,
+          step: step_func,
+          complete: function() {
+            console.log("All done!");
+          },
+          error: function(error) {
+            console.log(error);
+          },
+        });
+      }
+
+      function parse_csv_string(csv, step_func) {
+        Papa.parse(csv, {
+          header: true,
+          step: step_func,
+          complete: function() {
+            console.log("All done!");
+          },
+          error: function(error) {
+            console.log(error);
+          },
+        });
+      }
 
       function appendThought(container, html) {
         var div = document.createElement('li');
@@ -87,6 +118,8 @@
       function getThoughtURL() {
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=0&single=true&output=csv";
       }
+
+      main();
     </script>
   </body>
 </html>
