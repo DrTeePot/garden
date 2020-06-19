@@ -3,7 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>Tristan's Garden</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.0/highlight.min.js"></script>
+    <script></script>
     <style type="text/css">
       @import url("https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/anonymous-pro.min.css");
 
@@ -27,6 +30,11 @@
         margin: 5px 0px;
 
       }
+
+      .timestamp {
+        font-style: italic;
+        float: right;
+      }
     </style>
     <script src="papaparse.min.js"></script>
     <script src="markdown-it.min.js"></script>
@@ -44,13 +52,7 @@
     </header>
 
     <main>
-      <!-- <h2>  </h2> -->
-
       <ul id="thoughts">
-        <li>
-          <h3> Timestamp 1 </h3>
-          <div><p>some text</p> </div>
-        </li>
       </ul>
     </main>
 
@@ -58,11 +60,7 @@
       function main() {
         const url = getThoughtURL();
         var container = document.getElementById('thoughts');
-        const csv = 'timestamp,body\n\
-          6/11/2020 22:29:14,"\
-          With some text\n\
-          *bold* _underlined_ ~~strike~~ :smile:"';
-
+        const csv = 'timestamp,body\n 6/11/2020 22:29:14,"With some text\n **bold** __bold__ *italic* ~~strike~~ :smile: \n ``` ruby \n # a ruby comment \n ```"';
 
         if (window.location.protocol == 'file:') {
           parse_csv_string(csv, parse_row(container));
@@ -74,14 +72,54 @@
       function parse_row(container) {
         return function (row) {
           var md = window.markdownit({
-             breaks: true,
-             typographer: true,
+            breaks: true,
+            typographer: true,
+            highlight: function (str, lang) {
+              if (lang && hljs.getLanguage(lang)) {
+                try {
+                  return hljs.highlight(lang, str).value;
+                } catch (__) {}
+              }
+
+              return ''; // use external default escaping
+            },
           });
           const timestamp = row.data["timestamp"];
+
           const thought = row.data["body"];
-          const thought_html = `<h3> ${ timestamp } </h3> <li>${md.render(thought)}</li>`;
+          const thought_html = `<li>${md.render(thought)}<br><span class="timestamp">${ parseTimestamp(timestamp) } </span><br><hr></li>`;
           appendThought(container, thought_html);
         }
+      }
+
+      function parseTimestamp(t) {
+        const r = /([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{1,4}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/;
+
+        // named capture groups aren't supported on IE and Firefox Android :frown: 
+        const pt = t.match(r);
+
+        const d = {
+          month: parseInt(pt[1]),
+          day: parseInt(pt[2]),
+          year: parseInt(pt[3]),
+          hour: parseInt(pt[4]),
+          minute: parseInt(pt[5]),
+          second: parseInt(pt[6]),
+        };
+
+        const datetime = new Date(d.year, d.month, d.day, d.hour, d.minute);
+
+        var options = {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric'
+        };
+        const formatter = new Intl.DateTimeFormat('en-US', options);
+
+        return formatter.format(datetime);
       }
 
       function parse_csv_url(url, step_func) {
@@ -90,8 +128,8 @@
           worker: true,
           header: true,
           step: step_func,
-          complete: function() {
-            console.log("All done!");
+          complete: function(results) {
+            console.log("All done!", results);
           },
           error: function(error) {
             console.log(error);
@@ -103,8 +141,8 @@
         Papa.parse(csv, {
           header: true,
           step: step_func,
-          complete: function() {
-            console.log("All done!");
+          complete: function(results) {
+            console.log("All done!", results);
           },
           error: function(error) {
             console.log(error);
