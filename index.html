@@ -29,23 +29,52 @@
         text-align: center;
       }
       h2 {
-        font-size: 0.9em;
+        font-size: 1.2em;
+        font-style: bold;
+      }
+
+      a {
+        text-decoration: none;
       }
 
       .site-title {
         position: relative;
-        height: 75px;
+        height: 40px;
+        margin-bottom: 20px;
+        margin-top: 20px;
       }
 
       .name {
         position: absolute;
+        bottom: 0;
         left: 0;
+        height: 40px;
+      }
+
+      .name h1 {
+        margin: 0;
+        padding: 5px 0;
       }
 
       .socials {
         position: absolute;
-        padding: 30px 0;
+        height: 40px;
+        bottom: 0;
         right: 0;
+      }
+
+      .socials a {
+        display: inline-block;
+        width: 38px;
+        height: 38px;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 10px;
+        border: solid 1px black;
+      }
+
+      .socials img {
+        padding: 8px 0;
       }
 
       .thought-card {
@@ -57,6 +86,8 @@
       .timestamp {
         font-style: italic;
         text-align: end;
+        color: grey;
+        font-size: 0.8em;
       }
     </style>
     <script src="papaparse.min.js"></script>
@@ -66,19 +97,27 @@
   <body>
     <header>
       <div class="site-title">
-        <span class="name">
+        <div class="name">
           <h1> Tristan Potter </h1>
-        </span>
-        <span class="socials"> F | I | T </span>
+        </div>
+        <div class="socials">
+          <a href="https://twitter.com/twm_potter"><img src="feather/twitter.svg" alt="Email icon" height="24" width="24"></a>
+          <a href="https://www.linkedin.com/in/twmpotter/"><img src="feather/linkedin.svg" alt="LinkedIn icon" height="24" width="24"></a>
+          <a href=""><img src="feather/github.svg" alt="Github icon" height="24" width="24"></a>
+        </div>
       </div>
       <nav>
-        <a href="">Blog</a> | Garden | <a href="">Projects</a> | <a href="">About</a> | <a href="">Resume</a>
+        <a href=""><span class="icon">&#x1F331</span> Blog</a> | 
+        <span class="icon">&#x1F331</span> Garden | 
+        <a href=""><span class="icon">&#x1F331</span> Projects</a> | 
+        <a href=""><span class="icon">&#x1F331</span> About</a> | 
+        <a href=""> <span class="icon">&#x1F4C4</span> Resume</a>
       </nav>
       <hr>
     </header>
 
     <main>
-      <h2> Garden: Small thoughts that I'm planting</h2>
+      <h2> Garden: Planting small thoughts</h2>
       <hr>
       <ul id="thoughts">
       </ul>
