@@ -66,7 +66,9 @@
       function main() {
         const url = getThoughtURL();
         var container = document.getElementById('thoughts');
-        const csv = 'timestamp,body\n 6/11/2020 22:29:14,"With some text\n **bold** __bold__ *italic* ~~strike~~ :smile: \n ``` ruby \n # a ruby comment \n ```"';
+        const csv = 'timestamp,body\n\
+        6/11/2020 22:29:14,"With some text\n **bold** __bold__ *italic* ~~strike~~ :smile: \n ``` ruby \n # a ruby comment \n ```"\n\
+        6/19/2020 22:29:14,"Some other stuff happened"';
 
         if (window.location.protocol == 'file:') {
           parse_csv_string(csv, parse_row(container));
@@ -93,7 +95,12 @@
           const timestamp = row.data["timestamp"];
 
           const thought = row.data["body"];
-          const thought_html = `<div class="thought-card">${md.render(thought)}<div class="timestamp">${ parseTimestamp(timestamp) }</div></div>`;
+          const thought_html = `<li>
+            <div class="thought-card">${md.render(thought)}
+            <div class="timestamp">${ parseTimestamp(timestamp) }
+            </div>
+            </div>
+            </li>`;
           appendThought(container, thought_html);
         }
       }
@@ -157,9 +164,9 @@
       }
 
       function appendThought(container, html) {
-        var div = document.createElement('li');
-        div.innerHTML += html;
-        container.insertBefore(div, null);
+        var li = document.createElement('li');
+        li.innerHTML += html;
+        container.insertAdjacentHTML('afterBegin', html); //li, null);
       }
 
       function getThoughtURL() {
