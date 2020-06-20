@@ -31,9 +31,15 @@
 
       }
 
+      .thought-card {
+        padding: 10px;
+        border: solid 1px;
+        border-width: 1px 0;
+      }
+
       .timestamp {
         font-style: italic;
-        float: right;
+        text-align: end;
       }
     </style>
     <script src="papaparse.min.js"></script>
@@ -87,7 +93,7 @@
           const timestamp = row.data["timestamp"];
 
           const thought = row.data["body"];
-          const thought_html = `<li>${md.render(thought)}<br><span class="timestamp">${ parseTimestamp(timestamp) } </span><br><hr></li>`;
+          const thought_html = `<div class="thought-card">${md.render(thought)}<div class="timestamp">${ parseTimestamp(timestamp) }</div></div>`;
           appendThought(container, thought_html);
         }
       }
@@ -107,7 +113,7 @@
           second: parseInt(pt[6]),
         };
 
-        const datetime = new Date(d.year, d.month, d.day, d.hour, d.minute);
+        const datetime = new Date(d.year, d.month - 1, d.day, d.hour, d.minute);
 
         var options = {
           weekday: 'long',
