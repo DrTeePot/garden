@@ -6,7 +6,9 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.0/highlight.min.js"></script>
-    <script></script>
+    <!-- <script src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=0&single=true&output=csv&callback=main"></script> -->
+    <!-- <script src="https://sheets.googleapis.com/v4/spreadsheets/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/values/output!A1:A"></script> -->
+
     <style type="text/css">
       @import url("https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/anonymous-pro.min.css");
 
@@ -124,15 +126,17 @@
     </main>
 
     <script>
-      function main() {
+      function main(csv_data) {
         const url = getThoughtURL();
         var container = document.getElementById('thoughts');
         const csv = 'timestamp,body\n\
         6/11/2020 22:29:14,"With some text\n **bold** __bold__ *italic* ~~strike~~ :smile: \n ``` ruby \n # a ruby comment \n ```"\n\
         6/19/2020 22:29:14,"Some other stuff happened"';
+        console.log(csv_data);
 
         if (window.location.protocol == 'file:') {
-          parse_csv_string(csv, parse_row(container));
+          //parse_csv_string(csv, parse_row(container));
+          parse_csv_url(url, parse_row(container));
         } else {
           parse_csv_url(url, parse_row(container));
         }
@@ -206,6 +210,7 @@
             console.log("All done!", results);
           },
           error: function(error) {
+            console.log("Something went wrong.");
             console.log(error);
           },
         });
@@ -229,7 +234,7 @@
       }
 
       function getThoughtURL() {
-        return "https://docs.google.com/spreadsheets/d/e/2PACX-1vSf2Kwv4OA-Pd5q3a6pdQkvBA9i0iDpD-fA6BFrX1dzH5VIGXK_XCPU9GW2p8HPyaOwU6QA155ezHkl/pub?gid=0&single=true&output=csv";
+        return "file:///Users/tristanpotter/src/github.com/drteepot/garden/garden.csv";
       }
 
       main();
